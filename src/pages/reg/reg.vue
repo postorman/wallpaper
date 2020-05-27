@@ -1,15 +1,15 @@
 <template>
-  <div class="body">
-    <div class="main">
-      <div class="register">
+  <view class="body">
+    <view class="main">
+      <view class="register">
         <p class="register_title">
           注册
         </p>
-      </div>
-      <div class="form">
+      </view>
+      <view class="form">
         <label for="">头&nbsp;&nbsp;&nbsp;像<image @click="chooseImage"
                  class="logo"
-                 :src="form.headerUrl?form.headerUrl:'/src/static/img/qq.png'"></image>
+                 :src="form.headerUrl?form.headerUrl:'../../static/img/up-header.png'"></image>
         </label>
         <label class="register_input">手机号<input type="text"
                  v-model="form.iphone"></label>
@@ -17,13 +17,13 @@
                  v-model="form.password"></label>
         <label class="register_input">昵&nbsp;&nbsp;&nbsp;称<input type="text"
                  v-model="form.nickName"></label>
-      </div>
-      <div>
+      </view>
+      <view>
         <button class="register_button"
                 @click="register">注&nbsp;&nbsp;&nbsp;册</button>
-      </div>
-    </div>
-  </div>
+      </view>
+    </view>
+  </view>
 </template>
 
 <script>
@@ -46,6 +46,7 @@ export default {
   methods: {
     chooseImage () {
       var that = this
+      console.log(that.ip)
       uni.chooseImage({
         count: 1, //默认9
         success: function (res) {
@@ -59,17 +60,16 @@ export default {
             name: 'file',
             success: (res) => {
               var data = JSON.parse(res.data);
-              console.log(data);
               if (data.code == 200) {
                 uni.showToast({
                   title: '上传成功'
-                });
+                })
                 that.form.headerUrl = data.data
                 console.log(that.headerUrl)
               } else {
                 uni.showToast({
                   title: '上传失败'
-                });
+                })
               }
             },
             fail: (res) => {
@@ -145,8 +145,6 @@ export default {
     }
   },
   mounted () {
-    console.log(this.headerUrl);
-
   }
 }
 </script>
@@ -167,10 +165,10 @@ i {
   text-align: center;
 }
 .logo {
-  margin-left: 30rpx;
+  margin-left: 60rpx;
   /* background: coral; */
-  width: 300rpx;
-  height: 300rpx;
+  width: 350rpx;
+  height: 350rpx;
 }
 .register {
   text-align: center;

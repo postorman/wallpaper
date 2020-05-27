@@ -12,12 +12,26 @@ const store = new Vuex.Store({
     hasLogin: false,
     userName: "",
     ip: 'http://wall.dreamnight.xyz',
-    user: ''
-
+    user: {},
+    token: ""
+  },
+  getters: {
+    getToken (state) {
+      if (uni.getStorageSync("token")) {
+        state.token = uni.getStorageSync("token")
+ 
+      }
+      return state.token
+    },
   },
   mutations: {
-    login (state, userName) {
-      state.userName = userName || '新用户';
+
+    login (state, user) {
+      state.user = user
+      uni.setStorage({ key: 'user', data: user })
+      uni.setStorage({ key: 'token', data: user.token })
+      state.token = user.token
+      console.log(state.token)
       state.hasLogin = true;
     },
     logout (state) {

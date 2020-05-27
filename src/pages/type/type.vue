@@ -58,8 +58,44 @@ export default {
       });
     }
   },
+  methods: {
+    getType () {
+      var that = this
+      var token
+      uni.getStorageSync({
+        key: 'user',
+        success: function (ress) {
+          token = ress.data.token
+          console.log(token)
+        }
+
+      })
+      console.log(token)
+      this.$http.httpTokenRequest({ method: 'GET', url: '/category/list', token: token }).then(res => {
+        console.log(res);
+        if (res.data.code === 200) {
+          console.log(1);
+          uni.showToast({
+            icon: "success",
+            title: "登陆成功",
+          })
+          that.$store.commit("login", res.data.data)
+          uni.switchTab({
+            url: "../main/main",
+          })
+        } else {
+          uni.showToast({
+            icon: "none",
+            title: "登陆失败",
+          })
+        }
+      }, error => { console.log(error); })
+    }
+
+  },
   mounted () {
     console.log(this.user)
+    console.log(this.getType())
   }
 }
 </script>

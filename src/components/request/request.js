@@ -1,4 +1,7 @@
+import store from '../../store'
 const baseUrl = 'http://wall.dreamnight.xyz';
+const token = store.getters.getToken
+
 const httpRequest = (opts) => {
   let httpDefaultOpts = {
     url: baseUrl + opts.url,
@@ -27,15 +30,6 @@ const httpRequest = (opts) => {
 };
 //带Token请求
 const httpTokenRequest = (opts) => {
-  let token = "";
-  uni.getStorage({
-    key: 'token',
-    success: function (ress) {
-      console.log(ress)
-      token = ress.data
-    }
-  });
-  //此token是登录成功后后台返回保存在storage中的
   let httpDefaultOpts = {
     url: baseUrl + opts.url,
     data: opts.data,
@@ -50,6 +44,7 @@ const httpTokenRequest = (opts) => {
       },
     dataType: 'json',
   }
+  console.log(httpDefaultOpts)
   let promise = new Promise(function (resolve, reject) {
     uni.request(httpDefaultOpts).then(
       (res) => {
