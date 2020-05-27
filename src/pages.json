@@ -1,5 +1,11 @@
 {
   "pages": [{
+      "path": "pages/login/login",
+      "style": {
+        "navigationBarTitleText": "登录"
+      }
+    },
+    {
       "path": "pages/type/type",
       "style": {
         "navigationBarTitleText": "分类"
@@ -7,9 +13,9 @@
     },
 
     {
-      "path": "pages/login/login",
+      "path": "pages/hot/hot",
       "style": {
-        "navigationBarTitleText": "登录"
+        "navigationBarTitleText": "最热"
       }
     },
     {
@@ -59,6 +65,11 @@
       "text": "分类",
       "iconPath": "static/img/fenlei.png",
       "selectedIconPath": "static/img/fenlei-active.png"
+    }, {
+      "pagePath": "pages/hot/hot",
+      "text": "我的",
+      "iconPath": "static/img/hot.png",
+      "selectedIconPath": "static/img/hot-active.png"
     }, {
       "pagePath": "pages/user/user",
       "text": "我的",

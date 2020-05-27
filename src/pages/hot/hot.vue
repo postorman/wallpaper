@@ -1,16 +1,26 @@
 <template>
-
-  <scroll-view class="scroll-view_H"
-               scroll-x="true"
-               @scroll="scroll"
-               scroll-left="120">
-    <view id="demo1"
-          class="scroll-view-item_H uni-bg-red">A</view>
-    <view id="demo2"
-          class="scroll-view-item_H uni-bg-green">B</view>
-    <view id="demo3"
-          class="scroll-view-item_H uni-bg-blue">C</view>
-  </scroll-view>
+  <view class="content">
+    <view v-if="hasLogin"
+          class="hello">
+      <view class="title">
+        您好 {{userName}}，您已成功登录。
+      </view>
+      <view class="ul">
+        <view>这是 uni-app 带登录模板的示例App首页。</view>
+        <view>在 “我的” 中点击 “退出” 可以 “注销当前账户”</view>
+      </view>
+    </view>
+    <view v-if="!hasLogin"
+          class="hello">
+      <view class="title">
+        您好 游客。
+      </view>
+      <view class="ul">
+        <view>这是 uni-app 带登录模板的示例App首页。</view>
+        <view>在 “我的” 中点击 “登录” 可以 “登录您的账户”</view>
+      </view>
+    </view>
+  </view>
 </template>
 
 <script>
@@ -19,20 +29,7 @@ import {
 } from 'vuex'
 
 export default {
-  data () {
-    return {
-      old: {
-        scrollTop: 0
-      }
-    }
-  },
-  methods: {
-    scroll: function (e) {
-      console.log(e)
-      this.old.scrollTop = e.detail.scrollTop
-    },
-  },
-  computed: mapState(['forcedLogin', 'hasLogin', 'user']),
+  computed: mapState(['hasLogin', 'user']),
   onLoad () {
     if (!this.hasLogin) {
       uni.showModal({
@@ -60,6 +57,9 @@ export default {
         }
       });
     }
+  },
+  mounted () {
+    console.log(this.user)
   }
 }
 </script>

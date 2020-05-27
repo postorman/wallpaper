@@ -65,7 +65,6 @@ export default {
       this.$http.httpRequest({ method: 'POST', url: '/login', data: { iphone: this.iphone, password: this.password } }).then(res => {
         console.log(res);
         if (res.data.code === 200) {
-          console.log(1);
           uni.showToast({
             icon: "success",
             title: "登陆成功",
@@ -99,7 +98,7 @@ export default {
   width: 100vw;
 }
 .icon-mima {
-  font-size: 60rpx;
+  font-size: 70rpx;
 }
 .icon-yonghu {
   font-size: 70rpx;
