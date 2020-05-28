@@ -13,10 +13,10 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 /* 头条小程序需要把 iconfont 样式放到组件外 */
 @import "components/m-icon/m-icon.css";
-
+@import "@/static/icon/iconfont.css";
 /*每个页面公共css */
 page {
   min-height: 100%;
@@ -63,13 +63,28 @@ m-input {
   display: flex;
   flex: 1;
 }
-
+.item {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
+  width: 80vw;
+  padding: 30rpx 50rpx;
+  background: #fff;
+  font-size: 48rpx;
+  border: 1px solid #ddd;
+  border-radius: 10rpx;
+  margin: 10rpx 0;
+}
 .content {
   display: flex;
   flex: 1;
   flex-direction: column;
   background-color: #efeff4;
-  padding: 10px;
+  width: 100%;
+  > view {
+    margin: 0 auto;
+  }
 }
 
 .input-group {
@@ -125,11 +140,6 @@ m-input {
   -webkit-transform: scaleY(0.5);
   transform: scaleY(0.5);
   background-color: #c8c7cc;
-}
-
-.btn-row {
-  margin-top: 25px;
-  padding: 10px;
 }
 
 button.primary {

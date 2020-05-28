@@ -1,5 +1,13 @@
 {
-  "pages": [{
+  "pages": [
+
+
+    {
+      "path": "pages/user/user",
+      "style": {
+        "navigationBarTitleText": "我的"
+      }
+    }, {
       "path": "pages/login/login",
       "style": {
         "navigationBarTitleText": "登录"
@@ -30,23 +38,24 @@
       "style": {
         "navigationBarTitleText": "注册"
       }
-    },
-
-    {
-      "path": "pages/user/user",
-      "style": {
-        "navigationBarTitleText": "我的"
-      }
     }
   ],
   "subPackages": [{
     "root": "pagesIn",
     "pages": [{
-      "path": "details/details"
-    }]
+        "path": "details/details"
+      },
+      {
+        "path": "imageUp/imageUp"
+      }
+    ]
   }],
   "preloadRule": {
     "pagesIn/details/details": {
+      "network": "all",
+      "packages": ["__APP__"]
+    },
+    "pagesIn/imageUp/imageUp": {
       "network": "all",
       "packages": ["__APP__"]
     }

@@ -22,6 +22,12 @@ const store = new Vuex.Store({
       }
       return state.token
     },
+    getUser (state) {
+      if (uni.getStorageSync("USER")) {
+        state.user = uni.getStorageSync("USER")
+      }
+      return state.user
+    },
   },
   mutations: {
     login (state, user) {

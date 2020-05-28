@@ -18,23 +18,9 @@
       <swiper class="swiper"
               @change="change">
         <swiper-item>
-          <view class="swiper-item uni-bg-red">A</view>
-        </swiper-item>
-        <swiper-item>
-          <view class="swiper-item uni-bg-green">B</view>
-        </swiper-item>
-        <swiper-item>
-          <view class="swiper-item uni-bg-blue">C</view>
+
         </swiper-item>
       </swiper>
-      <view ref="col1">
-        <view v-for="item in imgList1"
-              :key="item.id"></view>
-      </view>
-      <view ref="col2">
-        <view v-for="(item,index) in imgList2"
-              :key="index"></view>
-      </view>
     </view>
   </view>
 </template>
@@ -117,21 +103,7 @@ export default {
       // this.currentTab = parseInt(e.detail.scrollLeft / a)
       // console.log(this.currentTab + "1111")
     },
-    // selectCol () {
-    //   var getHeight = (ref) => {
-    //     return this.$refs[ref].offsetHeight
-    //   }
-    //   var height1 = getHeight('col1')
-    //   var height2 = getHeight('col2')
-    //   switch (Math.min(height1, height2)) {
-    //     case height1:
-    //       return 'dataList1'
-    //       break
-    //     case height2:
-    //       return 'dataList2'
-    //       break
-    //   }
-    // },
+
     getType () {
       var that = this
       this.$http.httpTokenRequest({ method: 'GET', url: '/category/list' }).then(res => {

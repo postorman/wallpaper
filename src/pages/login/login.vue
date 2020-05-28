@@ -93,7 +93,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import "@/static/icon/iconfont.css";
 .body {
   width: 100vw;
 }
