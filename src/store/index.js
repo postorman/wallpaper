@@ -8,12 +8,14 @@ const store = new Vuex.Store({
 		/**
 		 * 是否需要强制登录
 		 */
+    loading: false,
     forcedLogin: false,
     hasLogin: false,
     userName: '',
     ip: 'http://wall.dreamnight.xyz',
     user: {},
-    token: ''
+    token: '',
+    screenWidth: ''
   },
   getters: {
     getToken (state) {
@@ -28,6 +30,12 @@ const store = new Vuex.Store({
       }
       return state.user
     },
+    getScreenWidth (state) {
+      if (uni.getStorageSync("SCREENWIDTH")) {
+        state.screenWidth = uni.getStorageSync("SCREENWIDTH")
+      }
+      return state.screenWidth
+    },
   },
   mutations: {
     login (state, user) {
@@ -35,11 +43,22 @@ const store = new Vuex.Store({
       uni.setStorage({ key: 'USER', data: user })
       uni.setStorage({ key: 'TOKEN', data: user.token })
       state.token = user.token
-      state.hasLogin = true;
+      state.hasLogin = true
     },
     logout (state) {
       state.userName = "";
       state.hasLogin = false;
+    },
+    setScreenWidth (state, screenWidth) {
+      state.screenWidth = screenWidth
+      uni.setStorage({ key: 'SCREENWIDTH', data: screenWidth })
+    },
+    show_loading (state) {
+      state.loading = true;
+    },
+    //隐藏请求加载动画
+    hide_loading (state) {
+      state.loading = false;
     }
   }
 })

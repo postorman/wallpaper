@@ -87,7 +87,6 @@ export default {
     // this.initProvider();
     // #ifdef MP-WEIXIN
     this.isDevtools = uni.getSystemInfoSync().platform === "devtools";
-
     // #endif
   },
 };
@@ -118,7 +117,6 @@ export default {
 .register {
   width: 100%;
   font-size: 30rpx;
-
   margin-bottom: 30rpx;
   text-align: center;
   display: flex;
