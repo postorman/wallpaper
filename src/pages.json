@@ -47,6 +47,9 @@
       },
       {
         "path": "imageUp/imageUp"
+      },
+      {
+        "path": "album/album"
       }
     ]
   }],
@@ -56,6 +59,10 @@
       "packages": ["__APP__"]
     },
     "pagesIn/imageUp/imageUp": {
+      "network": "all",
+      "packages": ["__APP__"]
+    },
+    "pagesIn/album/album": {
       "network": "all",
       "packages": ["__APP__"]
     }
@@ -76,7 +83,7 @@
       "selectedIconPath": "static/img/fenlei-active.png"
     }, {
       "pagePath": "pages/hot/hot",
-      "text": "我的",
+      "text": "热门",
       "iconPath": "static/img/hot.png",
       "selectedIconPath": "static/img/hot-active.png"
     }, {
@@ -89,6 +96,7 @@
   "globalStyle": {
     "navigationBarTextStyle": "white",
     "navigationBarBackgroundColor": "#0faeff",
-    "backgroundColor": "#fbf9fe"
+    "backgroundColor": "#fbf9fe",
+    "onReachBottomDistance": 20
   }
 }

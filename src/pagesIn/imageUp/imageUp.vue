@@ -114,9 +114,10 @@ export default {
           success: (res) => {
             console.log(res)
             var data = JSON.parse(res.data);
-            if (data.code == 200) {
+            console.log(data)
+            if (data.code === 200) {
               uni.showToast({
-                title: res.msg
+                title: data.msg
               })
             } else {
               uni.showToast({
@@ -141,7 +142,6 @@ export default {
           const tempFilePath = res.tempFilePaths
           that.imageList = that.imageList.concat(res.tempFilePaths);
           console.log(tempFilePath)
-
         }
       });
     }

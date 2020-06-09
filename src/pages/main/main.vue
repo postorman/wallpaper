@@ -1,16 +1,22 @@
 <template>
+  <view class="content">
+    <swiper class="swiper"
+            indicator-dots="true"
+            autoplay="true"
+            interval="5000"
+            duration="1500">
 
-  <scroll-view class="scroll-view_H"
-               scroll-x="true"
-               @scroll="scroll"
-               scroll-left="120">
-    <view id="demo1"
-          class="scroll-view-item_H uni-bg-red">A</view>
-    <view id="demo2"
-          class="scroll-view-item_H uni-bg-green">B</view>
-    <view id="demo3"
-          class="scroll-view-item_H uni-bg-blue">C</view>
-  </scroll-view>
+      <swiper-item>
+        <view class="swiper-item uni-bg-red">A</view>
+      </swiper-item>
+      <swiper-item>
+        <view class="swiper-item uni-bg-green">B</view>
+      </swiper-item>
+      <swiper-item>
+        <view class="swiper-item uni-bg-blue">C</view>
+      </swiper-item>
+    </swiper>
+  </view>
 </template>
 
 <script>
@@ -22,7 +28,8 @@ export default {
   data () {
     return {
       old: {
-        scrollTop: 0
+        scrollTop: 0,
+        banner: ['../../static/img/image-undfind.png', '../../static/img/weixin.png', '../../static/img/image-undfind.png']
       }
     }
   },
@@ -31,40 +38,19 @@ export default {
       console.log(e)
       this.old.scrollTop = e.detail.scrollTop
     },
+
   },
   computed: mapState(['forcedLogin', 'hasLogin', 'user']),
-  onLoad () {
-    if (!this.hasLogin) {
-      uni.showModal({
-        title: '未登录',
-        content: '您未登录，需要登录后才能继续',
-        /**
-         * 如果需要强制登录，不显示取消按钮
-         */
-        showCancel: !this.forcedLogin,
-        success: (res) => {
-          if (res.confirm) {
-            /**
-             * 如果需要强制登录，使用reLaunch方式
-             */
-            if (this.forcedLogin) {
-              uni.reLaunch({
-                url: '../login/login'
-              });
-            } else {
-              uni.navigateTo({
-                url: '../login/login'
-              });
-            }
-          }
-        }
-      });
-    }
+  mounted () {
+
   }
 }
 </script>
 
-<style>
+<style lang="scss">
+.swiper {
+  width: 100vw;
+}
 .hello {
   display: flex;
   flex: 1;

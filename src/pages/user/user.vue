@@ -3,6 +3,7 @@
     <view class="user">
       <cover-image class="img"
                    @click="pause(user.headerUrl)"
+                   @error="errorFunction($event)"
                    :src="user.headerUrl? user.headerUrl:'../../static/img/image-undfind.png'"></cover-image>
       <view>
         <view class="nick-name">
@@ -20,6 +21,13 @@
                  url="../../pagesIn/imageUp/imageUp">
         <view class="item">
           <icon class="iconfont icon-fabuxianxing"></icon>图片上传
+        </view>
+      </navigator>
+      <navigator animation-type="pop-in"
+                 animation-duration="300"
+                 url="../../pagesIn/album/album">
+        <view class="item">
+          <icon class="iconfont icon-fabuxianxing"></icon>我的图库
         </view>
       </navigator>
       <view class="item">
@@ -82,6 +90,9 @@ export default {
           url: '../login/login',
         });
       }
+    },
+    errorFunction () {
+      this.user.headerUrl = '../../static/img/image-undfind.png'
     }
   }, mounted () {
     this.getUser()

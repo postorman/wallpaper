@@ -1,8 +1,6 @@
 <template>
   <view>
-
     <scroll-view scroll-y="true"
-                 :style="{'height':imgheight+'px'}"
                  class="water"
                  @scroll="scroll">
       <view v-if="imgList.length!==0"
@@ -13,33 +11,55 @@
                 :key="index1">
             <image :src="item.url"
                    @load="onImageLoad"
+                   @tap="previewImage(item.url)"
                    @error="errorFunction($event,index1)"
                    mode="widthFix"></image>
-            <view class="title">{{item.title}}</view>
+            <view class="title">
+              <view>{{item.title}}</view>
+              <view>
+                <icon @click="shoucang"
+                      class="iconfont icon-shoucang"></icon>
+              </view>
+            </view>
           </view>
         </view>
         <view ref="col2"
-              v-if="imgList2.length>0"
-              :style="{'height':imgList2Height+total2*100+'px'}"
+              v-if="imgList2.length!==0"
               class="water-item">
           <view v-for="(item,index2) in imgList2"
                 :key="index2">
             <image :src="item.url"
                    @load="onImageLoad"
-                   @error="errorFunction($event,index1)"
+                   @error="errorFunction2($event,index2)"
+                   @tap="previewImage(item.url)"
                    mode="widthFix"></image>
-            <view class="title">{{item.title}}</view>
+            <view class="title">
+              <view>{{item.title}}</view>
+              <view>
+                <icon @click="shoucang"
+                      class="iconfont icon-shoucang"></icon>
+              </view>
+            </view>
           </view>
+        </view>
+        <view v-if="imgList2.length===0"
+              class="water-item">
         </view>
       </view>
       <view v-else>暂无数据</view>
     </scroll-view>
+    <view class="load-more"
+          v-if="total!=0&&imgList.length!=total"
+          @click="more">加载更多...</view>
+    <view class="load-more"
+          v-if="total===imgList.length&&total!==0"
+          @click="more">暂无更多图片</view>
   </view>
+
 </template>
 <script>
-
 export default {
-  props: ["imgList"],
+  props: ["imgList", "total"],
   data () {
     return {
       nowPage: 1,
@@ -55,31 +75,71 @@ export default {
       renderList: [],
       screenWidth: 0,
       imageIndex: 0,
-      imgheight: 0
+      imgheight: 0,
+      dta: []
+    }
+  },
+  watch: {
+    imgList (newVal, oldVal) {
+      console.log(newVal, oldVal)
+      if (newVal.length > 0) {
+        if (newVal.length < oldVal.length) {
+          //重新刷新了
+          // this.imgList1Height = 0
+          // this.imgList2Height = 0
+          // this.imgList1 = []
+          // this.imgList2 = []
+          // this.imageIndex = 0
+          // this.imgList1.push(this.imgList[this.imageIndex])
+          this.imgList = oldVal
+        } else {
+          if (this.imgList1Height > this.imgList2Height) {
+            this.imgList2.push(this.imgList[this.imageIndex])
+          } else {
+            this.imgList1.push(this.imgList[this.imageIndex])
+          }
+        }
+
+      } else {
+        console.log("没有数据了")
+      }
     }
   },
   methods: {
+    previewImage (image) {
+      var imgArr = [];
+      imgArr.push(image);
+      //预览图片
+      uni.previewImage({
+        urls: imgArr,
+        current: imgArr[0]
+      });
+    },
     scroll () {
-
     },
     errorFunction (event, index) {
       console.log(event, index)
+      console.log(this.imgList1[index], this.imageIndex)
+      this.imgList1[index].url = '../../static/img/image-undfind.png'
     },
-
+    errorFunction2 (event, index) {
+      console.log(event, index)
+      console.log(this.imgList1[index], this.imageIndex)
+      this.imgList2[index].url = '../../static/img/image-undfind.png'
+    },
     onImageLoad (e) {
       let divWidth = this.$store.getters.getScreenWidth / 2;			//显示的单栏宽度，我设为295rpx
       let oImgW = e.detail.width; //图片原始宽度
       let oImgH = e.detail.height; //图片原始高度
       let rImgH = divWidth * oImgH / oImgW;	//根据宽高比计算当前载入的图片的高度
-      // if (rImgH > 600) {
-      //   rImgH = 600;       //限制图片最高600rpx，可在css中添加 max-height:600rpx;
-      // }
-
       if (this.imageIndex == 0) {
         this.imgList1Height += rImgH;	//第一张图片高度加到imgList1Height 
-        this.imageIndex++;			//图片索引加1
-        this.imgList2.push(this.imgList[this.imageIndex]);
-        this.imgheight = this.imgList1Height + this.imgList1.length * 100	//添加第二张图片到imgList2数组，因为第一张已经初始化到左侧列表中
+        this.imgheight = this.imgList1Height + this.imgList1.length * 70	//添加第二张图片到imgList2数组，因为第一张已经初始化到左侧列表中
+        this.$emit("imgHeight", this.imgheight)
+        if (this.imgList.length > 1) {
+          this.imageIndex++;			//图片索引加1
+          this.imgList2.push(this.imgList[this.imageIndex]);
+        }
       } else {
         this.imageIndex++;		//图片索引加1
         if (this.imgList1Height > this.imgList2Height) {		//把图片的高度加到目前高度更低的栏中
@@ -95,47 +155,37 @@ export default {
           }
         } else {
           if (this.imgList1Height > this.imgList2Height) {
-            console.log(this.imgList1Height, this.imgList2Height)
-            this.$emit("imgHeight", this.imgList1Height + this.imgList1.length * 100)
-            this.imgheight = this.imgList1Height + this.imgList1.length * 100
-            console.log("imgList1HeightEnd")
+            this.$emit("imgHeight", this.imgList1Height + this.imgList1.length * 70) //70为title高度
+            this.imgheight = this.imgList1Height + this.imgList1.length * 70
           } else {
-            console.log(this.imgList1Height, this.imgList2Height)
-            this.$emit("imgHeight", this.imgList2Height + this.imgList2.length * 100)
-            this.imgheight = this.imgList2Height + this.imgList2.length * 100
-            console.log("imgList2HeightEnd")
+            this.$emit("imgHeight", this.imgList2Height + this.imgList2.length * 70)
+            this.imgheight = this.imgList2Height + this.imgList2.length * 70
           }
         }
       }
     },
-    // selectCol (e) {
-    //   // var getHeight = (ref) => {
-    //   //   return this.$refs[ref].
-    //   // }
-    //   var height1 = getHeight('col1')
-    //   var height2 = getHeight('col2')
-
-    //   switch (Math.min(height1, height2)) {
-    //     case height1:
-    //       this.imgList1 = this.imgList1.concat(e)
-    //       break
-    //     case height2:
-    //       this.imgList1 = this.imgList2.concat(e)
-    //       break
-    //   }
-    // },
   },
   mounted () {
     var that = this
-    console.log(this.imgList)
     if (this.imgList) {
       that.imgList1.push(this.imgList[0])
+    } else {
+      this.$emit("imgHeight", 0)
     }
   }
 }
 </script>
 
 <style lang="scss">
+.load-more {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  font-size: 40rpx;
+  padding: 10rpx;
+  text-align: center;
+  background: rgb(238, 232, 232);
+}
 .water {
   height: 100%;
   display: flex;
@@ -152,6 +202,9 @@ export default {
     }
     .title {
       height: 140rpx;
+      icon {
+        font-size: 60rpx;
+      }
     }
   }
 }
